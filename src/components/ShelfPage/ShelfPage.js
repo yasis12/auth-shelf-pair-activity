@@ -24,7 +24,12 @@ function ShelfPage() {
   const addShelfItem = (event) => {
     event.preventDefault();
     axios.post('/api/shelf', { description: itemName, image_url: imageURL })
-    .then(response => fetchShelf())
+    .then(response => 
+    fetchShelf(),
+    setImageURL(''),
+    setItemName('')
+    )
+    
     .catch(error => {
       console.error(error);
       alert('Something went wrong.');
