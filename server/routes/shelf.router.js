@@ -45,7 +45,21 @@ router.post('/', (req, res) => {
  * Delete an item
  */
 router.delete('/:id', (req, res) => {
-  // endpoint functionality
-});
+  console.log('/shelf DELETE route');
+  console.log('is authenticated?', req.isAuthenticated());
+  console.log(req.body.id);
+  if(req.isAuthenticated()){
+    let queryText = `DELETE FROM "item" WHERE id = $1`;
+   pool.query(queryText, [req.params.id])    
+   .then(results => {
+    res.sendStatus(204);
+    }).catch(error => {
+      console.log(error);
+      res.sendStatus(500);
+    });
+    } else {
+      res.sendStatus(401);               
+    }
+  });
 
 module.exports = router;

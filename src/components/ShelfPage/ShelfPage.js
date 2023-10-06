@@ -21,6 +21,7 @@ function ShelfPage() {
     });
   }
 
+  // add item to shelf function
   const addShelfItem = (event) => {
     event.preventDefault();
     axios.post('/api/shelf', { description: itemName, image_url: imageURL })
@@ -29,11 +30,21 @@ function ShelfPage() {
     setImageURL(''),
     setItemName('')
     )
-    
     .catch(error => {
       console.error(error);
       alert('Something went wrong.');
     });
+  }
+
+  const deleteItem = (itemId) => {
+    event.preventDefault();
+    console.log('item id?', itemId);
+    axios.delete(`api/shelf/${itemId}`)
+    .then(response => fetchShelf())
+      .catch(error => {
+        console.error(error);
+        alert('Something went wrong.');
+      });
   }
 
   return (
@@ -52,7 +63,7 @@ function ShelfPage() {
                         <br />
                         <div className="desc">{item.description}</div>
                         <div style={{textAlign: 'center', padding: '5px'}}>
-                          <button style={{cursor: 'pointer'}}>Delete</button>
+                          <button onClick={() => deleteItem(item.id)}  style={{cursor: 'pointer'}}>Delete</button>
                         </div>
                     </div>
                  </div>
